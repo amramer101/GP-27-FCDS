@@ -33,6 +33,7 @@ The scanner files and CVE CSV were preserved from the extracted implementation. 
 | `code/tests/` | [Test guide](code/tests/README.md) | Existing integration assertions |
 | `report/` | [Report guide](report/README.md) | Optional HTML functions, inputs and hashing |
 | `results/` | [Result schema](results/README.md) | JSON fields, statuses, findings and score interpretation |
+| `papers/` | [Research background](papers/README.md) | Five historical papers, specifications and project scope comparison |
 | `validation/` | [Validation plan and evidence](validation/README.md) | Executed checks versus proposed detector validation |
 
 ## Quick start
@@ -66,4 +67,4 @@ The CVE file is a static snapshot. A missing CVE match can reflect incomplete fi
 
 ## Team workflow
 
-Run the integration suite before submitting changes. Preserve reproducible fixture inputs and expected outcomes when changing detection rules. Review JSON evidence before drawing conclusions from a report. Generated website results remain local and are ignored by Git; documentation and small validation records are tracked. See each folder's README for its contract.
+Run the integration suite before submitting changes. Preserve reproducible fixture inputs and expected outcomes when changing detection rules. Review JSON evidence before drawing conclusions from a report. New website results remain local and are ignored by Git by default; explicitly selected examples in the results guide, documentation and small validation records are tracked. See each folder's README for its contract.
