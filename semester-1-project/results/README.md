@@ -1,6 +1,6 @@
 # Results — JSON contract and interpretation
 
-The CLI saves JSON here by default. `--html` also saves a same-basename HTML file here. `report/` contains rendering code, not generated reports. A custom `--output` can choose another directory. Website outputs are ignored by Git; this README and `.gitkeep` are tracked.
+The CLI saves JSON here by default. `--html` also saves a same-basename HTML file here. `report/` contains rendering code, not generated reports. A custom `--output` can choose another directory. New website outputs are ignored by Git by default. The explicitly published runs listed below are tracked alongside this README and `.gitkeep`.
 
 ## Top-level JSON fields
 
@@ -62,3 +62,13 @@ The calculation uses severity/tier, not a measured exploit probability. `grade_r
 `http_requests`, `base_url_gets`, `cache_hits`, `cache_reads`, `modules_executed` and `errors` are implementation counters. For example, `base_url_gets` is incremented once before the preflight retry loop, so it is not an exact number of all network attempts. `metrics.errors` is separate from top-level `errors`.
 
 Review in this order: coverage → errors → finding evidence → severity/remediation → summary/score. For experiments, retain the JSON with the code commit, CSV hash, configuration and runtime versions; the current JSON does not embed all that provenance automatically.
+
+## Published scan artifacts
+
+These existing user-generated scans were explicitly selected for publication. They are automated observations, not independently reviewed vulnerability verdicts or ground-truth validation. Both JSON runs report five completed modules, 15 combined findings and zero orchestrator errors. Completion does not validate each finding. In particular, static secret-pattern matches do not establish that a credential is valid or active.
+
+- [auic.alexu.edu.eg_7f22b1a9-f33e-4ae6-a0a3-67759e984367.json](auic.alexu.edu.eg_7f22b1a9-f33e-4ae6-a0a3-67759e984367.json)
+- [auic.alexu.edu.eg_c99418bf-d7ed-412c-925b-d631252f42c9.html](auic.alexu.edu.eg_c99418bf-d7ed-412c-925b-d631252f42c9.html)
+- [auic.alexu.edu.eg_c99418bf-d7ed-412c-925b-d631252f42c9.json](auic.alexu.edu.eg_c99418bf-d7ed-412c-925b-d631252f42c9.json)
+
+The HTML shares scan ID `c99418bf-d7ed-412c-925b-d631252f42c9` with its same-basename JSON. Download the HTML and open it locally; GitHub normally shows the source/download view rather than rendering the report as a website. The earlier JSON is a separate execution. Original result contents are preserved.

@@ -1,0 +1,633 @@
+{
+  "scanId": "c99418bf-d7ed-412c-925b-d631252f42c9",
+  "url": "https://auic.alexu.edu.eg",
+  "start_time": "2026-11-15T21:03:45.293834",
+  "end_time": "2026-11-15T21:03:48.095270",
+  "duration_seconds": 2.8,
+  "tests_run": 5,
+  "total_findings": 15,
+  "findings": [
+    {
+      "id": "865643f9c99b",
+      "module": "test_01_secrets",
+      "title": "OpenAI API Key Exposed in 3re60p7e3id9b.js",
+      "severity": "high",
+      "confidence": "verified-static",
+      "cwe": "CWE-798",
+      "owasp": "A07:2021",
+      "location": "https://auic.alexu.edu.eg/_next/static/chunks/3re60p7e3id9b.js (line 1)",
+      "evidence": "Matched value: sk-i...-pos\nContext:\n1: (globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push([\"object\"==typeof document?document.currentScript:void 0,340974,207670,e=>{\"use strict\";function r(){for(var e,r,o=0,t=\"\",l=arguments.length;o<l;...",
+      "poc": "curl -s 'https://auic.alexu.edu.eg/_next/static/chunks/3re60p7e3id9b.js' | grep -F 'sk-i'",
+      "remediation": "Remove the key from source code. Use environment variables or a secrets manager.",
+      "detection_method": "Regex Pattern Match",
+      "tier": ""
+    },
+    {
+      "id": "b7da95a1dfef",
+      "module": "test_02_frontend_libs",
+      "title": "Detected React Component (Version Unknown)",
+      "severity": "info",
+      "confidence": "informational",
+      "cwe": "CWE-1035",
+      "owasp": "A06:2021-Vulnerable and Outdated Components",
+      "location": "https://auic.alexu.edu.eg/_next/static/chunks/2-l_yud5rtszx.js",
+      "evidence": "Detected react via script_content_fingerprint but could not determine its version.",
+      "poc": "curl -s 'https://auic.alexu.edu.eg/_next/static/chunks/2-l_yud5rtszx.js' | grep -i 'react' # (Version unknown, look for fingerprint)",
+      "remediation": "Ensure the library is kept up-to-date.",
+      "detection_method": "Library Fingerprinting",
+      "tier": ""
+    },
+    {
+      "id": "be6bee35bda9",
+      "module": "test_03_cookies",
+      "title": "No cookies observed on the response",
+      "severity": "info",
+      "confidence": "informational",
+      "cwe": "",
+      "owasp": "",
+      "location": "https://auic.alexu.edu.eg",
+      "evidence": "The response did not set any Set-Cookie headers.",
+      "poc": "curl -Is https://auic.alexu.edu.eg | grep -i 'set-cookie'",
+      "remediation": "No action required.",
+      "detection_method": "Set-Cookie Header Analysis",
+      "tier": "baseline"
+    },
+    {
+      "id": "0128cf8975fc",
+      "module": "test_05_security_headers",
+      "title": "HSTS present but below 2-year preload threshold (max-age=31536000)",
+      "severity": "medium",
+      "confidence": "verified-live",
+      "cwe": "CWE-319",
+      "owasp": "A05:2021",
+      "location": "Strict-Transport-Security",
+      "evidence": "Current value: max-age=31536000; includeSubDomains; preload",
+      "poc": "curl -Is https://auic.alexu.edu.eg | grep -i 'strict-transport-security'",
+      "remediation": "Set to max-age=63072000; includeSubDomains; preload",
+      "detection_method": "Header Check",
+      "tier": "baseline"
+    },
+    {
+      "id": "8dbf12cd184a",
+      "module": "test_05_security_headers",
+      "title": "CSP allows 'unsafe-inline'",
+      "severity": "high",
+      "confidence": "verified-live",
+      "cwe": "CWE-79",
+      "owasp": "A03:2021",
+      "location": "Content-Security-Policy",
+      "evidence": "CSP contains 'unsafe-inline': default-src 'self'; script-src 'self' 'nonce-MTg0MWRmODEtMjNlNy00MDBhLWFiOGItOWE2OGU1OGVjNDk5' 'strict-dynamic' 'unsafe-inline' 'wasm-unsafe-eval' https://www.alexu.edu.eg; style-src 'self' 'unsafe-in",
+      "poc": "curl -Is https://auic.alexu.edu.eg | grep -i 'content-security-policy'",
+      "remediation": "Remove 'unsafe-inline' and use nonce- or hash-based script/style sources instead.",
+      "detection_method": "CSP Policy Analysis",
+      "tier": "baseline"
+    },
+    {
+      "id": "f4894d3ca29e",
+      "module": "test_05_security_headers",
+      "title": "Missing Cross-Origin-Opener-Policy",
+      "severity": "low",
+      "confidence": "informational",
+      "cwe": "CWE-693",
+      "owasp": "A05:2021",
+      "location": "Cross-Origin-Opener-Policy",
+      "evidence": "Header 'Cross-Origin-Opener-Policy' is missing.",
+      "poc": "curl -Is https://auic.alexu.edu.eg | grep -i 'Cross-Origin-Opener-Policy'",
+      "remediation": "Implement Cross-Origin-Opener-Policy to isolate browsing context.",
+      "detection_method": "Header Check",
+      "tier": "hardening"
+    },
+    {
+      "id": "4583b96b5aae",
+      "module": "test_05_security_headers",
+      "title": "Missing Cross-Origin-Embedder-Policy",
+      "severity": "low",
+      "confidence": "informational",
+      "cwe": "CWE-693",
+      "owasp": "A05:2021",
+      "location": "Cross-Origin-Embedder-Policy",
+      "evidence": "Header 'Cross-Origin-Embedder-Policy' is missing.",
+      "poc": "curl -Is https://auic.alexu.edu.eg | grep -i 'Cross-Origin-Embedder-Policy'",
+      "remediation": "Implement Cross-Origin-Embedder-Policy to control cross-origin embedding.",
+      "detection_method": "Header Check",
+      "tier": "hardening"
+    },
+    {
+      "id": "b7e5bf195a4f",
+      "module": "test_05_security_headers",
+      "title": "Missing Cross-Origin-Resource-Policy",
+      "severity": "low",
+      "confidence": "informational",
+      "cwe": "CWE-693",
+      "owasp": "A05:2021",
+      "location": "Cross-Origin-Resource-Policy",
+      "evidence": "Header 'Cross-Origin-Resource-Policy' is missing.",
+      "poc": "curl -Is https://auic.alexu.edu.eg | grep -i 'Cross-Origin-Resource-Policy'",
+      "remediation": "Implement Cross-Origin-Resource-Policy to prevent cross-site resource loading.",
+      "detection_method": "Header Check",
+      "tier": "hardening"
+    },
+    {
+      "id": "05e2c446387a",
+      "module": "test_05_security_headers",
+      "title": "Missing Document-Policy",
+      "severity": "low",
+      "confidence": "informational",
+      "cwe": "CWE-693",
+      "owasp": "A05:2021",
+      "location": "Document-Policy",
+      "evidence": "Header 'Document-Policy' is missing.",
+      "poc": "curl -Is https://auic.alexu.edu.eg | grep -i 'Document-Policy'",
+      "remediation": "Implement Document-Policy to restrict web platform features.",
+      "detection_method": "Header Check",
+      "tier": "hardening"
+    },
+    {
+      "id": "a7b951d63362",
+      "module": "test_05_security_headers",
+      "title": "Missing Origin-Agent-Cluster",
+      "severity": "low",
+      "confidence": "informational",
+      "cwe": "CWE-693",
+      "owasp": "A05:2021",
+      "location": "Origin-Agent-Cluster",
+      "evidence": "Header 'Origin-Agent-Cluster' is missing.",
+      "poc": "curl -Is https://auic.alexu.edu.eg | grep -i 'Origin-Agent-Cluster'",
+      "remediation": "Implement Origin-Agent-Cluster to enable origin isolation.",
+      "detection_method": "Header Check",
+      "tier": "hardening"
+    },
+    {
+      "id": "a8df1ba62721",
+      "module": "test_05_security_headers",
+      "title": "Missing X-Permitted-Cross-Domain-Policies",
+      "severity": "low",
+      "confidence": "informational",
+      "cwe": "CWE-693",
+      "owasp": "A05:2021",
+      "location": "X-Permitted-Cross-Domain-Policies",
+      "evidence": "Header is missing.",
+      "poc": "curl -Is https://auic.alexu.edu.eg | grep -i 'x-permitted-cross-domain-policies'",
+      "remediation": "Set to 'none' or 'master-only'.",
+      "detection_method": "Header Check",
+      "tier": "hardening"
+    },
+    {
+      "id": "0fb14641405a",
+      "module": "test_05_security_headers",
+      "title": "X-XSS-Protection enabled (deprecated, potential risk)",
+      "severity": "low",
+      "confidence": "verified-live",
+      "cwe": "CWE-693",
+      "owasp": "A05:2021",
+      "location": "X-XSS-Protection",
+      "evidence": "Value: 1; mode=block",
+      "poc": "curl -Is https://auic.alexu.edu.eg | grep -i 'x-xss-protection'",
+      "remediation": "Remove or set to '0' to disable.",
+      "detection_method": "Header Check",
+      "tier": "hardening"
+    },
+    {
+      "id": "1cc9dc3c3c99",
+      "module": "test_05_security_headers",
+      "title": "Missing Reporting API configuration",
+      "severity": "low",
+      "confidence": "informational",
+      "cwe": "CWE-693",
+      "owasp": "A05:2021",
+      "location": "Report-To",
+      "evidence": "No Reporting API headers found.",
+      "poc": "curl -Is https://auic.alexu.edu.eg | grep -i 'report-to\\|reporting-endpoints'",
+      "remediation": "Implement the Reporting API.",
+      "detection_method": "Header Check",
+      "tier": "hardening"
+    },
+    {
+      "id": "195d313a0ae9",
+      "module": "test_05_security_headers",
+      "title": "Server header exposed: nginx",
+      "severity": "low",
+      "confidence": "verified-live",
+      "cwe": "CWE-200",
+      "owasp": "A01:2021",
+      "location": "Server",
+      "evidence": "Server: nginx",
+      "poc": "curl -Is https://auic.alexu.edu.eg | grep -i 'server'",
+      "remediation": "Remove Server header.",
+      "detection_method": "Header Check",
+      "tier": "baseline"
+    },
+    {
+      "id": "68cbd12763fb",
+      "module": "test_08_cors",
+      "title": "No CORS response headers observed",
+      "severity": "info",
+      "confidence": "informational",
+      "cwe": "",
+      "owasp": "",
+      "location": "https://auic.alexu.edu.eg",
+      "evidence": "No Access-Control-Allow-Origin header was returned for a cross-origin probe request (Origin: https://bravo6-cors-probe.invalid). Cross-origin access is blocked by the browser's default same-origin policy.",
+      "poc": "curl -i -X OPTIONS https://auic.alexu.edu.eg -H 'Origin: https://bravo6-cors-probe.invalid' -H 'Access-Control-Request-Method: GET'",
+      "remediation": "No action required unless cross-origin access is intentionally needed, in which case configure CORS explicitly with an origin allowlist.",
+      "detection_method": "CORS Probe",
+      "tier": "baseline"
+    }
+  ],
+  "tests": {
+    "test_01_secrets": {
+      "findings": [
+        {
+          "title": "OpenAI API Key Exposed in 3re60p7e3id9b.js",
+          "severity": "high",
+          "confidence": "verified-static",
+          "cwe": "CWE-798",
+          "owasp": "A07:2021",
+          "location": "https://auic.alexu.edu.eg/_next/static/chunks/3re60p7e3id9b.js (line 1)",
+          "evidence": "Matched value: sk-i...-pos\nContext:\n1: (globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push([\"object\"==typeof document?document.currentScript:void 0,340974,207670,e=>{\"use strict\";function r(){for(var e,r,o=0,t=\"\",l=arguments.length;o<l;...",
+          "poc": "curl -s 'https://auic.alexu.edu.eg/_next/static/chunks/3re60p7e3id9b.js' | grep -F 'sk-i'",
+          "remediation": "Remove the key from source code. Use environment variables or a secrets manager.",
+          "detection_method": "Regex Pattern Match"
+        },
+        {
+          "title": "OpenAI API Key Exposed in 3re60p7e3id9b.js",
+          "severity": "high",
+          "confidence": "verified-static",
+          "cwe": "CWE-798",
+          "owasp": "A07:2021",
+          "location": "https://auic.alexu.edu.eg/_next/static/chunks/3re60p7e3id9b.js (line 1)",
+          "evidence": "Matched value: sk-i...olor\nContext:\n1: (globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push([\"object\"==typeof document?document.currentScript:void 0,340974,207670,e=>{\"use strict\";function r(){for(var e,r,o=0,t=\"\",l=arguments.length;o<l;...",
+          "poc": "curl -s 'https://auic.alexu.edu.eg/_next/static/chunks/3re60p7e3id9b.js' | grep -F 'sk-i'",
+          "remediation": "Remove the key from source code. Use environment variables or a secrets manager.",
+          "detection_method": "Regex Pattern Match"
+        },
+        {
+          "title": "OpenAI API Key Exposed in 3re60p7e3id9b.js",
+          "severity": "high",
+          "confidence": "verified-static",
+          "cwe": "CWE-798",
+          "owasp": "A07:2021",
+          "location": "https://auic.alexu.edu.eg/_next/static/chunks/3re60p7e3id9b.js (line 1)",
+          "evidence": "Matched value: sk-i...olor\nContext:\n1: (globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push([\"object\"==typeof document?document.currentScript:void 0,340974,207670,e=>{\"use strict\";function r(){for(var e,r,o=0,t=\"\",l=arguments.length;o<l;...",
+          "poc": "curl -s 'https://auic.alexu.edu.eg/_next/static/chunks/3re60p7e3id9b.js' | grep -F 'sk-i'",
+          "remediation": "Remove the key from source code. Use environment variables or a secrets manager.",
+          "detection_method": "Regex Pattern Match"
+        },
+        {
+          "title": "OpenAI API Key Exposed in 3re60p7e3id9b.js",
+          "severity": "high",
+          "confidence": "verified-static",
+          "cwe": "CWE-798",
+          "owasp": "A07:2021",
+          "location": "https://auic.alexu.edu.eg/_next/static/chunks/3re60p7e3id9b.js (line 1)",
+          "evidence": "Matched value: sk-i...-pos\nContext:\n1: (globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push([\"object\"==typeof document?document.currentScript:void 0,340974,207670,e=>{\"use strict\";function r(){for(var e,r,o=0,t=\"\",l=arguments.length;o<l;...",
+          "poc": "curl -s 'https://auic.alexu.edu.eg/_next/static/chunks/3re60p7e3id9b.js' | grep -F 'sk-i'",
+          "remediation": "Remove the key from source code. Use environment variables or a secrets manager.",
+          "detection_method": "Regex Pattern Match"
+        },
+        {
+          "title": "OpenAI API Key Exposed in 3re60p7e3id9b.js",
+          "severity": "high",
+          "confidence": "verified-static",
+          "cwe": "CWE-798",
+          "owasp": "A07:2021",
+          "location": "https://auic.alexu.edu.eg/_next/static/chunks/3re60p7e3id9b.js (line 1)",
+          "evidence": "Matched value: sk-i...olor\nContext:\n1: (globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push([\"object\"==typeof document?document.currentScript:void 0,340974,207670,e=>{\"use strict\";function r(){for(var e,r,o=0,t=\"\",l=arguments.length;o<l;...",
+          "poc": "curl -s 'https://auic.alexu.edu.eg/_next/static/chunks/3re60p7e3id9b.js' | grep -F 'sk-i'",
+          "remediation": "Remove the key from source code. Use environment variables or a secrets manager.",
+          "detection_method": "Regex Pattern Match"
+        },
+        {
+          "title": "OpenAI API Key Exposed in 3re60p7e3id9b.js",
+          "severity": "high",
+          "confidence": "verified-static",
+          "cwe": "CWE-798",
+          "owasp": "A07:2021",
+          "location": "https://auic.alexu.edu.eg/_next/static/chunks/3re60p7e3id9b.js (line 1)",
+          "evidence": "Matched value: sk-i...olor\nContext:\n1: (globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push([\"object\"==typeof document?document.currentScript:void 0,340974,207670,e=>{\"use strict\";function r(){for(var e,r,o=0,t=\"\",l=arguments.length;o<l;...",
+          "poc": "curl -s 'https://auic.alexu.edu.eg/_next/static/chunks/3re60p7e3id9b.js' | grep -F 'sk-i'",
+          "remediation": "Remove the key from source code. Use environment variables or a secrets manager.",
+          "detection_method": "Regex Pattern Match"
+        },
+        {
+          "title": "OpenAI API Key Exposed in 3re60p7e3id9b.js",
+          "severity": "high",
+          "confidence": "verified-static",
+          "cwe": "CWE-798",
+          "owasp": "A07:2021",
+          "location": "https://auic.alexu.edu.eg/_next/static/chunks/3re60p7e3id9b.js (line 1)",
+          "evidence": "Matched value: sk-i...-pos\nContext:\n1: (globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push([\"object\"==typeof document?document.currentScript:void 0,340974,207670,e=>{\"use strict\";function r(){for(var e,r,o=0,t=\"\",l=arguments.length;o<l;...",
+          "poc": "curl -s 'https://auic.alexu.edu.eg/_next/static/chunks/3re60p7e3id9b.js' | grep -F 'sk-i'",
+          "remediation": "Remove the key from source code. Use environment variables or a secrets manager.",
+          "detection_method": "Regex Pattern Match"
+        },
+        {
+          "title": "OpenAI API Key Exposed in 3re60p7e3id9b.js",
+          "severity": "high",
+          "confidence": "verified-static",
+          "cwe": "CWE-798",
+          "owasp": "A07:2021",
+          "location": "https://auic.alexu.edu.eg/_next/static/chunks/3re60p7e3id9b.js (line 1)",
+          "evidence": "Matched value: sk-i...olor\nContext:\n1: (globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push([\"object\"==typeof document?document.currentScript:void 0,340974,207670,e=>{\"use strict\";function r(){for(var e,r,o=0,t=\"\",l=arguments.length;o<l;...",
+          "poc": "curl -s 'https://auic.alexu.edu.eg/_next/static/chunks/3re60p7e3id9b.js' | grep -F 'sk-i'",
+          "remediation": "Remove the key from source code. Use environment variables or a secrets manager.",
+          "detection_method": "Regex Pattern Match"
+        },
+        {
+          "title": "OpenAI API Key Exposed in 3re60p7e3id9b.js",
+          "severity": "high",
+          "confidence": "verified-static",
+          "cwe": "CWE-798",
+          "owasp": "A07:2021",
+          "location": "https://auic.alexu.edu.eg/_next/static/chunks/3re60p7e3id9b.js (line 1)",
+          "evidence": "Matched value: sk-i...olor\nContext:\n1: (globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push([\"object\"==typeof document?document.currentScript:void 0,340974,207670,e=>{\"use strict\";function r(){for(var e,r,o=0,t=\"\",l=arguments.length;o<l;...",
+          "poc": "curl -s 'https://auic.alexu.edu.eg/_next/static/chunks/3re60p7e3id9b.js' | grep -F 'sk-i'",
+          "remediation": "Remove the key from source code. Use environment variables or a secrets manager.",
+          "detection_method": "Regex Pattern Match"
+        }
+      ],
+      "details": {
+        "requests_made": 0,
+        "inline_scripts_scanned": 14,
+        "external_scripts_scanned": 20,
+        "referenced_configs_scanned": 0
+      },
+      "status": "complete",
+      "duration_seconds": 1.35
+    },
+    "test_02_frontend_libs": {
+      "findings": [
+        {
+          "title": "Detected React Component (Version Unknown)",
+          "severity": "info",
+          "confidence": "informational",
+          "cwe": "CWE-1035",
+          "owasp": "A06:2021-Vulnerable and Outdated Components",
+          "location": "https://auic.alexu.edu.eg/_next/static/chunks/2-l_yud5rtszx.js",
+          "evidence": "Detected react via script_content_fingerprint but could not determine its version.",
+          "poc": "curl -s 'https://auic.alexu.edu.eg/_next/static/chunks/2-l_yud5rtszx.js' | grep -i 'react' # (Version unknown, look for fingerprint)",
+          "remediation": "Ensure the library is kept up-to-date.",
+          "detection_method": "Library Fingerprinting"
+        }
+      ],
+      "details": {
+        "requests_made": 0,
+        "libraries_detected": 1,
+        "cve_cache_loaded": true
+      },
+      "status": "complete",
+      "duration_seconds": 1.84
+    },
+    "test_03_cookies": {
+      "findings": [
+        {
+          "title": "No cookies observed on the response",
+          "severity": "info",
+          "confidence": "informational",
+          "cwe": "",
+          "owasp": "",
+          "location": "https://auic.alexu.edu.eg",
+          "evidence": "The response did not set any Set-Cookie headers.",
+          "poc": "curl -Is https://auic.alexu.edu.eg | grep -i 'set-cookie'",
+          "remediation": "No action required.",
+          "detection_method": "Set-Cookie Header Analysis",
+          "raw_data": {
+            "tier": "baseline"
+          }
+        }
+      ],
+      "details": {
+        "requests_made": 0,
+        "cookies_analyzed": 0
+      },
+      "status": "complete",
+      "duration_seconds": 0.0
+    },
+    "test_05_security_headers": {
+      "findings": [
+        {
+          "title": "HSTS present but below 2-year preload threshold (max-age=31536000)",
+          "severity": "medium",
+          "confidence": "verified-live",
+          "cwe": "CWE-319",
+          "owasp": "A05:2021",
+          "location": "Strict-Transport-Security",
+          "evidence": "Current value: max-age=31536000; includeSubDomains; preload",
+          "poc": "curl -Is https://auic.alexu.edu.eg | grep -i 'strict-transport-security'",
+          "remediation": "Set to max-age=63072000; includeSubDomains; preload",
+          "detection_method": "Header Check",
+          "raw_data": {
+            "tier": "baseline"
+          }
+        },
+        {
+          "title": "CSP allows 'unsafe-inline'",
+          "severity": "high",
+          "confidence": "verified-live",
+          "cwe": "CWE-79",
+          "owasp": "A03:2021",
+          "location": "Content-Security-Policy",
+          "evidence": "CSP contains 'unsafe-inline': default-src 'self'; script-src 'self' 'nonce-MTg0MWRmODEtMjNlNy00MDBhLWFiOGItOWE2OGU1OGVjNDk5' 'strict-dynamic' 'unsafe-inline' 'wasm-unsafe-eval' https://www.alexu.edu.eg; style-src 'self' 'unsafe-in",
+          "poc": "curl -Is https://auic.alexu.edu.eg | grep -i 'content-security-policy'",
+          "remediation": "Remove 'unsafe-inline' and use nonce- or hash-based script/style sources instead.",
+          "detection_method": "CSP Policy Analysis",
+          "raw_data": {
+            "tier": "baseline"
+          }
+        },
+        {
+          "title": "Missing Cross-Origin-Opener-Policy",
+          "severity": "low",
+          "confidence": "informational",
+          "cwe": "CWE-693",
+          "owasp": "A05:2021",
+          "location": "Cross-Origin-Opener-Policy",
+          "evidence": "Header 'Cross-Origin-Opener-Policy' is missing.",
+          "poc": "curl -Is https://auic.alexu.edu.eg | grep -i 'Cross-Origin-Opener-Policy'",
+          "remediation": "Implement Cross-Origin-Opener-Policy to isolate browsing context.",
+          "detection_method": "Header Check",
+          "raw_data": {
+            "tier": "hardening"
+          }
+        },
+        {
+          "title": "Missing Cross-Origin-Embedder-Policy",
+          "severity": "low",
+          "confidence": "informational",
+          "cwe": "CWE-693",
+          "owasp": "A05:2021",
+          "location": "Cross-Origin-Embedder-Policy",
+          "evidence": "Header 'Cross-Origin-Embedder-Policy' is missing.",
+          "poc": "curl -Is https://auic.alexu.edu.eg | grep -i 'Cross-Origin-Embedder-Policy'",
+          "remediation": "Implement Cross-Origin-Embedder-Policy to control cross-origin embedding.",
+          "detection_method": "Header Check",
+          "raw_data": {
+            "tier": "hardening"
+          }
+        },
+        {
+          "title": "Missing Cross-Origin-Resource-Policy",
+          "severity": "low",
+          "confidence": "informational",
+          "cwe": "CWE-693",
+          "owasp": "A05:2021",
+          "location": "Cross-Origin-Resource-Policy",
+          "evidence": "Header 'Cross-Origin-Resource-Policy' is missing.",
+          "poc": "curl -Is https://auic.alexu.edu.eg | grep -i 'Cross-Origin-Resource-Policy'",
+          "remediation": "Implement Cross-Origin-Resource-Policy to prevent cross-site resource loading.",
+          "detection_method": "Header Check",
+          "raw_data": {
+            "tier": "hardening"
+          }
+        },
+        {
+          "title": "Missing Document-Policy",
+          "severity": "low",
+          "confidence": "informational",
+          "cwe": "CWE-693",
+          "owasp": "A05:2021",
+          "location": "Document-Policy",
+          "evidence": "Header 'Document-Policy' is missing.",
+          "poc": "curl -Is https://auic.alexu.edu.eg | grep -i 'Document-Policy'",
+          "remediation": "Implement Document-Policy to restrict web platform features.",
+          "detection_method": "Header Check",
+          "raw_data": {
+            "tier": "hardening"
+          }
+        },
+        {
+          "title": "Missing Origin-Agent-Cluster",
+          "severity": "low",
+          "confidence": "informational",
+          "cwe": "CWE-693",
+          "owasp": "A05:2021",
+          "location": "Origin-Agent-Cluster",
+          "evidence": "Header 'Origin-Agent-Cluster' is missing.",
+          "poc": "curl -Is https://auic.alexu.edu.eg | grep -i 'Origin-Agent-Cluster'",
+          "remediation": "Implement Origin-Agent-Cluster to enable origin isolation.",
+          "detection_method": "Header Check",
+          "raw_data": {
+            "tier": "hardening"
+          }
+        },
+        {
+          "title": "Missing X-Permitted-Cross-Domain-Policies",
+          "severity": "low",
+          "confidence": "informational",
+          "cwe": "CWE-693",
+          "owasp": "A05:2021",
+          "location": "X-Permitted-Cross-Domain-Policies",
+          "evidence": "Header is missing.",
+          "poc": "curl -Is https://auic.alexu.edu.eg | grep -i 'x-permitted-cross-domain-policies'",
+          "remediation": "Set to 'none' or 'master-only'.",
+          "detection_method": "Header Check",
+          "raw_data": {
+            "tier": "hardening"
+          }
+        },
+        {
+          "title": "X-XSS-Protection enabled (deprecated, potential risk)",
+          "severity": "low",
+          "confidence": "verified-live",
+          "cwe": "CWE-693",
+          "owasp": "A05:2021",
+          "location": "X-XSS-Protection",
+          "evidence": "Value: 1; mode=block",
+          "poc": "curl -Is https://auic.alexu.edu.eg | grep -i 'x-xss-protection'",
+          "remediation": "Remove or set to '0' to disable.",
+          "detection_method": "Header Check",
+          "raw_data": {
+            "tier": "hardening"
+          }
+        },
+        {
+          "title": "Missing Reporting API configuration",
+          "severity": "low",
+          "confidence": "informational",
+          "cwe": "CWE-693",
+          "owasp": "A05:2021",
+          "location": "Report-To",
+          "evidence": "No Reporting API headers found.",
+          "poc": "curl -Is https://auic.alexu.edu.eg | grep -i 'report-to\\|reporting-endpoints'",
+          "remediation": "Implement the Reporting API.",
+          "detection_method": "Header Check",
+          "raw_data": {
+            "tier": "hardening"
+          }
+        },
+        {
+          "title": "Server header exposed: nginx",
+          "severity": "low",
+          "confidence": "verified-live",
+          "cwe": "CWE-200",
+          "owasp": "A01:2021",
+          "location": "Server",
+          "evidence": "Server: nginx",
+          "poc": "curl -Is https://auic.alexu.edu.eg | grep -i 'server'",
+          "remediation": "Remove Server header.",
+          "detection_method": "Header Check",
+          "raw_data": {
+            "tier": "baseline"
+          }
+        }
+      ],
+      "details": {
+        "requests_made": 0,
+        "site_categories": [],
+        "is_sensitive_context": false,
+        "is_api": false,
+        "is_cdn": false
+      },
+      "status": "complete",
+      "duration_seconds": 0.0
+    },
+    "test_08_cors": {
+      "findings": [
+        {
+          "title": "No CORS response headers observed",
+          "severity": "info",
+          "confidence": "informational",
+          "cwe": "",
+          "owasp": "",
+          "location": "https://auic.alexu.edu.eg",
+          "evidence": "No Access-Control-Allow-Origin header was returned for a cross-origin probe request (Origin: https://bravo6-cors-probe.invalid). Cross-origin access is blocked by the browser's default same-origin policy.",
+          "poc": "curl -i -X OPTIONS https://auic.alexu.edu.eg -H 'Origin: https://bravo6-cors-probe.invalid' -H 'Access-Control-Request-Method: GET'",
+          "remediation": "No action required unless cross-origin access is intentionally needed, in which case configure CORS explicitly with an origin allowlist.",
+          "detection_method": "CORS Probe",
+          "raw_data": {
+            "tier": "baseline"
+          }
+        }
+      ],
+      "details": {
+        "requests_made": 1
+      },
+      "status": "complete",
+      "duration_seconds": 0.11
+    }
+  },
+  "waf": null,
+  "page_is_representative": true,
+  "errors": [],
+  "errors_count": 0,
+  "deduplicated_count": 8,
+  "summary": {
+    "critical": 0,
+    "high": 2,
+    "medium": 1,
+    "low": 9,
+    "info": 3
+  },
+  "score": 53,
+  "raw_score": 53.0,
+  "grade": "F",
+  "grade_reliable": true,
+  "coverage_note": null,
+  "metrics": {
+    "http_requests": 27,
+    "cache_hits": 20,
+    "modules_executed": 5,
+    "errors": [],
+    "base_url_gets": 1,
+    "cache_reads": 4
+  }
+}
