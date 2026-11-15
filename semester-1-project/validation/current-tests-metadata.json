@@ -1,0 +1,36 @@
+{
+  "recorded_at_utc": "2026-11-15T19:07:46.073556+00:00",
+  "base_commit": "89d1dc50ef74b96d15224644cfd77eb24f02584a",
+  "scope": "Existing six integration tests; no detector accuracy benchmark",
+  "command": [
+    "/usr/bin/python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "code/tests",
+    "-v"
+  ],
+  "working_directory": "semester-1-project",
+  "exit_code": 0,
+  "python": "3.14.8 (main, Oct  1 2026, 00:00:00) [GCC 15.3.1 20260722 (Red Hat 15.3.1-1)]",
+  "platform": "Linux-7.2.12-100.fc43.x86_64-x86_64-with-glibc2.42",
+  "dependencies": {
+    "aiohttp": "3.14.1",
+    "beautifulsoup4": "4.15.0",
+    "packaging": "26.3"
+  },
+  "sha256": {
+    "code/data/cve_database_v2.csv": "71beb374f94df54082dcd584106c7af668d69efb7b4c560e93eb1c99d8990fc2",
+    "code/main_scanner.py": "a009bd326ec8a81d9d81289baf84bf8fba8c8e2fccac833d723dfaf479718fb4",
+    "code/requirements.txt": "c5c443ca5b1d1abff1bf0efeeb4f9e2f37a0198c2f0cefcc20b36f96e9c90e97",
+    "code/test_01_secrets.py": "b6d7abb598cf2ccc1c729da9d3bac1c0573421e695c26ef4c0706bda88e1bcaf",
+    "code/test_02_frontend_libs.py": "8dae2ae8f0dd292f616de01b5a346a1e066fd8aabd72380184dc220bf13da417",
+    "code/test_03_cookies.py": "135378a871f171f2a770214cfdabfc37e4b8a62eedb0916d7c33d9eaf263f4b5",
+    "code/test_05_security_headers.py": "972292a61e70807e9672b3a9b1e1916ffd6bef5d16f1f07d8098bbb13f28d75f",
+    "code/test_08_cors.py": "b75767745db82d29128890049293a6d7b7ad8b160860c9e6a8a7852f22e8f58b",
+    "code/tests/test_cli.py": "f04b2e2afa1fbe2e497b764ea34eaded01e0c6b6c6cce248f7d121923506dd46",
+    "report/html_report.py": "8702f6a5bd1bf2329a4900232a005b3ed6e77a2492508eace7a5f09d552814b3"
+  },
+  "log_sha256": "76f23df06b7ecba553c78068ee92661e60b028c3729e8c1e25ece3c14d0b804d"
+}

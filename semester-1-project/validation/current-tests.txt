@@ -1,0 +1,11 @@
+test_blocked_page_still_saves_both (test_cli.CliTests.test_blocked_page_still_saves_both) ... ok
+test_default_results_directory_and_optional_report (test_cli.CliTests.test_default_results_directory_and_optional_report) ... ok
+test_html_and_json (test_cli.CliTests.test_html_and_json) ... ok
+test_invalid_output_extension_rejected (test_cli.CliTests.test_invalid_output_extension_rejected) ... ok
+test_json_only_and_local_database (test_cli.CliTests.test_json_only_and_local_database) ... ok
+test_report_escapes_target_content_and_filters_modules (test_cli.CliTests.test_report_escapes_target_content_and_filters_modules) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 2.940s
+
+OK

@@ -1,73 +1,69 @@
-# Semester 1 — Local Website Scanner
+# Semester 1 — Local Website Security Scanner
 
-## Layout
+A reproducible, command-line project that examines a website through five security checks, combines their evidence into JSON, and optionally generates a readable HTML report. The goal is to help a team inspect observable website configuration and exposed frontend content without deploying cloud infrastructure.
 
-```text
-semester-1-project/
-├── code/
-│   ├── main_scanner.py
-│   ├── test_01_secrets.py
-│   ├── test_02_frontend_libs.py
-│   ├── test_03_cookies.py
-│   ├── test_05_security_headers.py
-│   ├── test_08_cors.py
-│   ├── data/cve_database_v2.csv
-│   ├── requirements.txt
-│   └── tests/test_cli.py
-├── report/
-│   └── html_report.py
-└── results/
-```
+## What the project checks
 
-The five scanner files and frontend CVE database are unchanged from the extracted source. The orchestrator loads exactly these five files; adding other Python files does not enable additional scans. The shared cache, finding normalization, deduplication, and scoring are retained. Scores apply only to the five included checks.
+| Check | Main evidence | Interpretation |
+| --- | --- | --- |
+| Secrets | HTML, JavaScript, referenced configuration content | Credential-like values and context; detection does not establish that a credential is active. |
+| Frontend Libraries | Library fingerprints, versions, bundled CVE ranges | Matches observed components against a local vulnerability snapshot. |
+| Cookies | `Set-Cookie` headers and cookie attributes | Flags issues using cookie purpose, transport and attribute rules. |
+| Security Headers | Response headers and page context | Evaluates policies including CSP, HSTS, framing and other hardening headers. |
+| CORS | Responses to cross-origin probes | Reports observable origin/credential policy behavior. |
 
-## Install
+This is a focused five-check scanner, not a complete application penetration test. It does not cover authentication workflows, backend source code, every route, or all vulnerability classes. It fetches HTTP content; it does not execute the application in a browser.
 
-Use Python 3.10 or newer. From the repository root:
+## How a scan works
+
+1. Validate the URL and fetch the main page through the shared HTTP session.
+2. Cache HTML, headers and cookie headers; assess whether the response represents the target rather than an error/challenge page.
+3. Run the five explicitly selected scanners concurrently, sharing cached JavaScript where applicable.
+4. Normalize findings, remove matching duplicates and calculate the five-check score.
+5. Save JSON. If `--html` is present, render that same in-memory result into HTML beside the JSON.
+
+The scanner files and CVE CSV were preserved from the extracted implementation. Integration changes belong to the local orchestrator and report layer. No Azure deployment, API gateway or database service is needed. Network access is still needed to inspect the target and its assets.
+
+## Repository guide
+
+| Folder | Start here | Purpose |
+| --- | --- | --- |
+| `code/` | [Code guide](code/README.md) | Installation, CLI, modules, tests and contribution workflow |
+| `code/data/` | [Dataset guide](code/data/README.md) | Local frontend CVE snapshot and its limitations |
+| `code/tests/` | [Test guide](code/tests/README.md) | Existing integration assertions |
+| `report/` | [Report guide](report/README.md) | Optional HTML functions, inputs and hashing |
+| `results/` | [Result schema](results/README.md) | JSON fields, statuses, findings and score interpretation |
+| `validation/` | [Validation plan and evidence](validation/README.md) | Executed checks versus proposed detector validation |
+
+## Quick start
+
+From the repository root, using Python 3.10 or newer:
 
 ```bash
 cd semester-1-project
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r code/requirements.txt
-```
-
-On Windows, activate with `.venv\Scripts\activate` instead.
-
-## Run
-
-JSON only (default):
-
-```bash
 python code/main_scanner.py --url "https://example.com"
-```
-
-JSON plus HTML:
-
-```bash
 python code/main_scanner.py --url "https://example.com" --html
 ```
 
-Choose a filename:
+Windows activation: `.venv\Scripts\activate` in Command Prompt, or `.venv\Scripts\Activate.ps1` in PowerShell.
 
-```bash
-python code/main_scanner.py --url "https://example.com" --html --output results/example.json
-```
+Results go to this project's `results/` directory. JSON is always the normal output; HTML is optional. Use `--output results/example.json` to choose a filename. The complete CLI and error behavior are documented in the code guide.
 
-Both files go into `results/` by default, with the same unique basename and `.json` / `.html` extensions. A custom `--output` path is relative to your current working directory; HTML is saved beside it. Default paths and the bundled database work from any directory. Open the HTML file directly in a browser; no server or internet is required to view it.
+## What has actually been verified
 
-Without `--html`, the report module is not loaded and no HTML is generated. JSON is saved first, including when a scan is blocked or incomplete. A failed HTML export never deletes the JSON. Existing files supplied explicitly through `--output` are overwritten; default filenames are unique.
+The current six integration tests exercise all five modules together against a controlled local fixture, local CVE matching, JSON-only output, optional HTML, blocked-page handling, output locations, report failure handling and HTML escaping. The [recorded run](validation/current-tests.txt) and [file fingerprints](validation/current-tests-metadata.json) identify the tested implementation.
 
-Exit codes: `0` = all five checks completed, `2` = incomplete/blocked scan or invalid CLI arguments, `1` = execution/output/report failure. Unreachable or blocked pages are reported as incomplete, not as clean scans.
+These assertions verify specific behavior. They do **not** estimate real-world precision/recall or prove that every detector is correct. The next validation step is a balanced, independently reviewed positive/negative fixture set for each check, described in the validation plan. Historical results from the larger project are not presented as results of this five-check version.
 
-The scanner runs locally but needs network access to the website and its JavaScript assets. It uses the bundled CSV snapshot for frontend CVEs, with no automatic updates. No Azure SDK, credentials, Terraform, or API gateway are required. The unchanged frontend script still contains a dormant Azure loader; the orchestrator disables its environment trigger and always uses the CSV. Original public-target safety checks remain enabled.
+## Reading results responsibly
 
-Generated results stay on your computer and are ignored by Git; the tracked placeholder keeps the results folder visible after cloning.
+Check `tests_run`, per-test `status`, `errors`, `page_is_representative` and `grade_reliable` before interpreting the score. A high score from an incomplete scan is not evidence of a secure website. The score is a rule-based prioritization aid, not a probability of compromise or an accuracy metric. A completed check means its routine returned successfully; it does not establish exhaustive coverage.
 
-## Verify
+The CVE file is a static snapshot. A missing CVE match can reflect incomplete fingerprints, missing versions or missing dataset coverage. Keep the dataset version with validation evidence.
 
-```bash
-python -m unittest discover -s code/tests -v
-```
+## Team workflow
 
-These integration tests use a local fixture server, run the real five scanners, verify CVE matching and JSON/HTML output, and exercise incomplete scans and HTML escaping. The private-target override is enabled only in the fixture subprocesses.
+Run the integration suite before submitting changes. Preserve reproducible fixture inputs and expected outcomes when changing detection rules. Review JSON evidence before drawing conclusions from a report. Generated website results remain local and are ignored by Git; documentation and small validation records are tracked. See each folder's README for its contract.

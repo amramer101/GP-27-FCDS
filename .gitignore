@@ -4,3 +4,4 @@ __pycache__/
 .pytest_cache/
 semester-1-project/results/*
 !semester-1-project/results/.gitkeep
+!semester-1-project/results/README.md
